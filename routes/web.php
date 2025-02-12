@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
+Route::get('/checkout', function () {
+    return view('checkout'); // Asegúrate de tener una vista llamada 'checkout.blade.php'
+})->name('checkout');
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,7 +16,6 @@ use App\Http\Controllers\ProductController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 Route::view('/', 'welcome');
 
 Route::view('dashboard', 'dashboard')
@@ -25,5 +27,7 @@ Route::view('profile', 'profile')
     ->name('profile');
 
     Route::resource('products', ProductController::class);
+
+    
 
 require __DIR__.'/auth.php';
