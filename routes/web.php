@@ -3,9 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
+use App\Livewire\Cart;
+
+Route::get('/cart', Cart::class)->name('cart');
+
+Route::resource('products', ProductController::class);
+
 Route::get('/checkout', function () {
     return view('checkout'); // Asegúrate de tener una vista llamada 'checkout.blade.php'
 })->name('checkout');
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,9 +32,5 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
-
-    Route::resource('products', ProductController::class);
-
-    
 
 require __DIR__.'/auth.php';
