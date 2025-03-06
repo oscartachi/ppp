@@ -33,4 +33,8 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
+Route::get('/carrito', function () {
+        return view('carrito');
+    })->name('carrito');
+
 require __DIR__.'/auth.php';

@@ -36,25 +36,26 @@ new class extends Component
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('tiendas')" wire:navigate>
                         {{ __('Tiendas') }}
                     </x-nav-link>
 
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('categoria')" wire:navigate>
                         {{ __('Categoria') }}
                         </x-nav-link>
 
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('productos')" wire:navigate>
                         {{ __('Productos') }}
                         </x-nav-link>
 
 
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                    <x-nav-link :href="route('carrito')" :active="request()->routeIs('carrito')" wire:navigate>
                         {{ __('Carrito de compras') }}
-                    </x-nav-link>
+                        </x-nav-link>
+                    </div>
                 </div>
             </div>
 
