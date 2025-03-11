@@ -1,36 +1,23 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\CheckoutController;
 
-use App\Livewire\Cart;
 
-Route::get('/cart', Cart::class)->name('cart');
+Route::resource('productos', ProductoController::class);
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::post('/carrito/agregar', [CarritoController::class, 'store'])->name('carrito.store');
+Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
+Route::delete('/carrito/{id}', [CarritoController::class, 'destroy'])->name('carrito.destroy');
+Route::post('/carrito/vaciar', [CarritoController::class, 'clear'])->name('carrito.clear');
+Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+Route::get('/mis-productos', [ProductoController::class, 'misProductos'])->name('productos.mis_productos')->middleware('auth');
 
-Route::resource('products', ProductController::class);
-
-Route::get('/checkout', function () {
-    return view('checkout'); // Asegúrate de tener una vista llamada 'checkout.blade.php'
-})->name('checkout');
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-Route::view('/', 'welcome');
-
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
-
-require __DIR__.'/auth.php';
+Route::get('/', function () {
+    return view('welcome');
+});
+Auth::routes();
+Route::get('/home', function () {
+    return redirect()->route('productos.index'); // Cambia a la ruta que muestra los productos
+})->name('home');
