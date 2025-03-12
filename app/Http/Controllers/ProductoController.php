@@ -32,6 +32,7 @@ class ProductoController extends Controller
             'precio' => 'required|numeric',
             'imagen' => 'image|nullable|max:2048',
             'categoria' => 'required'
+            
         ]);
 
         // Guardar la imagen si se sube
@@ -46,7 +47,8 @@ class ProductoController extends Controller
             'descripcion' => $request->descripcion,
             'precio' => $request->precio,
             'imagen' => $imagenPath,
-            'categoria' => $request->categoria
+            'categoria' => $request->categoria,
+            'user_id' =>  auth()->id()
         ]);
         
 
