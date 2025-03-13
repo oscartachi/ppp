@@ -14,7 +14,7 @@
     <!-- Header -->
     <header class="bg-green-700 text-white text-center py-10 md:py-14 shadow-lg">
         <h1 class="text-3xl md:text-5xl font-extrabold tracking-wide">🌿 Mis Productos</h1>
-        <p class="mt-2 text-md md:text-lg font-light">Administra tus productos frescos, directo del campo a la venta.</p>
+        <p class="mt-2 text-md md:text-lg font-light">ADMINISTRA TUS PRODUSCTOS FRESCOS, DIRECTO DEL CAMPO A LA VENTA.</p>
     </header>
 
     <div class="py-10 md:py-14 flex flex-col items-center">
@@ -25,7 +25,7 @@
                 <input 
                     type="text" 
                     id="searchInput" 
-                    placeholder="Buscar productos..." 
+                    placeholder="🔎 Buscar productos..." 
                     class="w-full max-w-lg px-4 py-3 border border-green-500 rounded-lg shadow-sm focus:ring-2 focus:ring-green-700 focus:outline-none"
                     onkeyup="filterProducts()"
                 >
@@ -47,6 +47,7 @@
 
                         <!-- Botones -->
                         <div class="mt-5 flex justify-between w-full">
+
                             <a href="{{ route('productos.edit', $producto->id) }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow text-sm flex items-center justify-center gap-1">✏️ Editar</a>
                             
                             <form action="{{ route('productos.destroy', $producto->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este producto?');">

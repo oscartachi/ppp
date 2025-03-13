@@ -10,7 +10,9 @@
 <body class="bg-gray-100">
     <header class="bg-green-700 text-white text-center py-10 md:py-14 shadow-lg">
         <h1 class="text-3xl md:text-5xl font-extrabold tracking-wide">🌿Bienvenido a AgroClick</h1>
-        <p class="mt-2 text-md md:text-lg font-light">Tu tienda de productos frescos, directo del campo a tu hogar.</p>
+        <p class="mt-2 text-md md:text-lg font-light">CONECTA CON LA FRESCURA DEL CAMPO 
+Y LLEVA FRUTAS Y VERDURAS DE CALIDAD
+ DIRECTO A TU HOGAR.</p>
     </header>
 
     <div class="py-8 md:py-12 flex flex-col items-center">
@@ -22,7 +24,7 @@
                 <input 
                     type="text" 
                     id="searchInput" 
-                    placeholder="Buscar productos..." 
+                    placeholder="🔎 Buscar productos..." 
                     class="w-full max-w-lg px-4 py-2 border border-green-500 rounded-lg shadow-sm focus:ring-2 focus:ring-green-700 focus:outline-none"
                     onkeyup="filterProducts()"
                 >

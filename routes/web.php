@@ -13,6 +13,9 @@ Route::delete('/carrito/{id}', [CarritoController::class, 'destroy'])->name('car
 Route::post('/carrito/vaciar', [CarritoController::class, 'clear'])->name('carrito.clear');
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 Route::get('/mis-productos', [ProductoController::class, 'misProductos'])->name('productos.mis_productos')->middleware('auth');
+Route::get('/productos/{id}/edit', [ProductoController::class, 'edit'])->name('productos.edit');
+Route::resource('productos', ProductoController::class);
+Route::delete('/productos/{id}', [ProductoController::class, 'destroy'])->name('productos.destroy');
 
 Route::get('/', function () {
     return view('welcome');

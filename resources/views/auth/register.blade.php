@@ -5,7 +5,7 @@
         <div class="col-lg-7 col-md-9 col-sm-12"> <!-- Más ancho en pantallas grandes -->
             <div class="card border-0 shadow-lg rounded-4" style="min-height: 600px;"> <!-- Aumenta la altura -->
                 <div class="card-header text-white text-center fw-bold py-3" 
-                     style="background: linear-gradient(135deg,rgb(8, 153, 102),rgb(8, 153, 102)); border-radius: 10px 10px 0 0;">
+                     style="background: linear-gradient(135deg,rgb(11, 160, 71),rgb(11, 160, 71)); border-radius: 10px 10px 0 0;">
                     {{ __('Register') }}
                 </div>
 
