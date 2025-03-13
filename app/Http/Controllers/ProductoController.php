@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Producto; // <-- IMPORTANTE, AGREGA ESTA LÍNEA
+use App\Models\Producto;
+use Illuminate\Support\Facades\Auth;
 
 class ProductoController extends Controller
 {
@@ -15,59 +16,14 @@ class ProductoController extends Controller
 
     public function misProductos()
     {
-    $productos = Producto::where('user_id', auth()->id())->get();
-    return view('productos.mis_productos', compact('productos'));
+        $productos = Producto::where('user_id', Auth::id())->get();
+        return view('productos.mis_productos', compact('productos'));
     }
 
     public function create()
     {
         return view('productos.create');
     }
-
-    public function destroy($id)
-    {
-    $producto = Producto::findOrFail($id);
-    $producto->delete();
-
-    return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente');
-    }
-
-    public function edit($id)
-    {
-    try {
-        $producto = Producto::findOrFail($id);
-        return view('productos.edit', compact('producto'));
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        return redirect()->route('productos.index')->with('error', 'Producto no encontrado');
-    }
-    }
-    
-    public function update(Request $request, $id)
-{
-    $request->validate([
-        'nombre' => 'required|string|max:255',
-        'descripcion' => 'nullable|string',
-        'precio' => 'required|numeric',
-        'imagen' => 'nullable|image|max:2048',
-        'categoria' => 'required|string'
-    ]);
-
-    $producto = Producto::findOrFail($id);
-    $producto->nombre = $request->nombre;
-    $producto->descripcion = $request->descripcion;
-    $producto->precio = $request->precio;
-    $producto->categoria = $request->categoria;
-
-    // Guardar imagen si se subió
-    if ($request->hasFile('imagen')) {
-        $imagenPath = $request->file('imagen')->store('productos', 'public');
-        $producto->imagen = $imagenPath;
-    }
-
-    $producto->save();
-
-    return redirect()->route('productos.index')->with('success', 'Producto actualizado correctamente.');
-}
 
     public function store(Request $request)
     {
@@ -77,15 +33,11 @@ class ProductoController extends Controller
             'precio' => 'required|numeric',
             'imagen' => 'image|nullable|max:2048',
             'categoria' => 'required'
-            
         ]);
 
-        // Guardar la imagen si se sube
-        if ($request->hasFile('imagen')) {
-            $imagenPath = $request->file('imagen')->store('imagenes', 'public');
-        } else {
-            $imagenPath = null;
-        }
+        $imagenPath = $request->hasFile('imagen') 
+            ? $request->file('imagen')->store('imagenes', 'public') 
+            : null;
 
         Producto::create([
             'nombre' => $request->nombre,
@@ -93,10 +45,53 @@ class ProductoController extends Controller
             'precio' => $request->precio,
             'imagen' => $imagenPath,
             'categoria' => $request->categoria,
-            'user_id' =>  auth()->id()
+            'user_id' => Auth::id()
         ]);
-        
 
-        return redirect()->route('productos.index');
+        return redirect()->route('productos.index')->with('success', 'Producto creado con éxito');
+    }
+
+    public function edit($id)
+    {
+        try {
+            $producto = Producto::findOrFail($id);
+            return view('productos.edit', compact('producto'));
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->route('productos.index')->with('error', 'Producto no encontrado');
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'precio' => 'required|numeric',
+            'imagen' => 'nullable|image|max:2048',
+            'categoria' => 'required|string'
+        ]);
+
+        $producto = Producto::findOrFail($id);
+        $producto->nombre = $request->nombre;
+        $producto->descripcion = $request->descripcion;
+        $producto->precio = $request->precio;
+        $producto->categoria = $request->categoria;
+
+        if ($request->hasFile('imagen')) {
+            $imagenPath = $request->file('imagen')->store('productos', 'public');
+            $producto->imagen = $imagenPath;
+        }
+
+        $producto->save();
+
+        return redirect()->route('productos.index')->with('success', 'Producto actualizado correctamente.');
+    }
+
+    public function destroy($id)
+    {
+        $producto = Producto::findOrFail($id);
+        $producto->delete();
+
+        return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente');
     }
 }
