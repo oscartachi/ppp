@@ -6,8 +6,16 @@ use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
-    public function index()
+    public function procesarPago(Request $request)
     {
-        return view('checkout');
+        $request->validate([
+            'nombre' => 'required|string',
+            'monto' => 'required|numeric|min:1',
+            'tarjeta' => 'required|digits:16',
+            'expiracion' => 'required|date_format:Y-m',
+            'cvv' => 'required|digits:3'
+        ]);
+
+        return redirect()->route('checkout')->with('success', '¡Pago procesado con éxito!');
     }
 }

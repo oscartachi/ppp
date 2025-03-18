@@ -17,6 +17,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/carrito/{id}', [CarritoController::class, 'destroy'])->name('carrito.destroy');
     Route::post('/carrito/vaciar', [CarritoController::class, 'clear'])->name('carrito.clear');
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+    Route::get('/checkout', function () { return view('checkout');})->name('checkout')->middleware('auth');
+    Route::post('/procesar-pago', [CheckoutController::class, 'procesarPago'])->name('pago.procesar');
 });
 
 Auth::routes();
