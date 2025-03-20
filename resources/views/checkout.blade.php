@@ -3,97 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Pago</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        .form-control-sm {
-            width: 100%;  
+    <title>Resumen de Pedido</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function mostrarNotificacion() {
+            document.getElementById('notificacion').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('notificacion').classList.add('hidden');
+            }, 3000);
         }
-        .form-label {
-            font-size: 0.9rem; 
-        }
-        .card {
-            max-width: 525px;
-            margin: 0 auto;
-        }
-        .form-group {
-            display: flex;
-            justify-content: center;
-        }
-        .form-control {
-            max-width: 400px; 
-        }
-    </style>
+    </script>
 </head>
-
-<body class="d-flex flex-column justify-content-center align-items-center vh-100 bg-white">
+<body class="bg-gray-100 min-h-screen">
+    @include('components.navbar')
     
-    @include('components.navbar') <!-- ✅ La navbar está dentro del body ahora -->
-
-    <h1 class="text-success mt-5 mb-5 text-center">💳 Bienvenidos a la Página de Pago</h1>
-    
-    <div class="card p-4 shadow">
-        <h2 class="text-center text-success">Pago</h2>
-        <p class="text-center text-muted">Aquí podrás procesar tu pago de manera segura.</p>
-        
-        @if(session('success'))
-            <div class="alert alert-success text-center">{{ session('success') }}</div>
-        @endif
-        
-        <form id="paymentForm" method="POST" action="{{ route('pago.procesar') }}">
-            @csrf
-            <div class="mb-3">
-                <label class="form-label">Nombre:</label>
-                <input type="text" name="nombre" class="form-control form-control-sm" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Monto:</label>
-                <input type="number" name="monto" class="form-control form-control-sm" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Número de Tarjeta:</label>
-                <input type="text" name="tarjeta" class="form-control form-control-sm" placeholder="0000 0000 0000 0000" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Fecha de Expiración:</label>
-                <input type="month" name="expiracion" class="form-control form-control-sm" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Código CVV:</label>
-                <input type="text" name="cvv" class="form-control form-control-sm" placeholder="123" required>
-            </div>
-            <button type="submit" class="btn btn-success w-100">✅ Pagar</button>
-        </form>
+    <div id="notificacion" class="hidden fixed top-4 right-4 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg text-lg">
+        ✅ Compra realizada con éxito
     </div>
+    
+    <div class="flex justify-center items-center min-h-screen">
+        <div class="bg-white shadow-lg rounded-lg p-10 w-full max-w-2xl text-center">
+            <h2 class="text-green-700 font-bold text-2xl">¡Felicidades! Tu pedido ya está confirmado</h2>
+            <p class="text-gray-600 text-md mt-4">Puedes seguir agregando productos mientras el tiempo límite de captura no finalice.</p>
 
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-success" id="successModalLabel">Pago Exitoso</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    ¡Tu pago ha sido procesado con éxito! 🎉
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cerrar</button>
-                </div>
+            <div class="mt-6 border-t border-gray-300 pt-4 text-left">
+                @php $totalCarrito = 0; @endphp
+                @forelse ($itemsCarrito as $item)
+                    @php
+                        $subtotal = $item->price * $item->quantity;
+                        $totalCarrito += $subtotal;
+                    @endphp
+                    <div class="py-2">
+                        <p class="text-lg font-semibold text-green-700">{{ $item->name }}</p>
+                        <p class="text-sm text-gray-600">Cantidad: <span class="font-semibold">{{ $item->quantity }} kg</span></p>
+                        <p class="text-sm text-gray-700 font-semibold">Precio unitario: ${{ number_format($item->price, 2) }} MXN</p>
+                        <p class="text-md font-bold text-green-800 mt-1">Subtotal: ${{ number_format($subtotal, 2) }} MXN</p>
+                    </div>
+                @empty
+                    <p class="text-gray-500 text-center py-4">No hay productos en el carrito.</p>
+                @endforelse
             </div>
+            
+            <div class="bg-green-100 text-green-700 font-bold text-2xl py-4 rounded-md mt-6">
+                Importe a pagar: ${{ number_format($totalCarrito, 2) }} MXN
+            </div>
+            
+            <button onclick="mostrarNotificacion()" class="bg-green-600 text-white font-bold py-3 px-8 rounded-md mt-6 text-lg hover:bg-green-700">
+                FINALIZAR
+            </button>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            @if(session('success'))
-                var successModal = new bootstrap.Modal(document.getElementById("successModal"));
-                successModal.show();
-            @endif
-        });
-    </script>
-
 </body>
 </html>
