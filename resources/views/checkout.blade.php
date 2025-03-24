@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,13 +15,15 @@
         }
     </script>
 </head>
+
 <body class="bg-gray-100 min-h-screen">
     @include('components.navbar')
-    
-    <div id="notificacion" class="hidden fixed top-4 right-4 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg text-lg">
+
+    <div id="notificacion"
+        class="hidden fixed top-4 right-4 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg text-lg">
         ✅ Compra realizada con éxito
     </div>
-    
+
     <div class="flex justify-center items-center min-h-screen">
         <div class="bg-white shadow-lg rounded-lg p-10 w-full max-w-2xl text-center">
             <h2 class="text-green-700 font-bold text-2xl">¡Felicidades! Tu pedido ya está confirmado</h2>
@@ -43,15 +46,20 @@
                     <p class="text-gray-500 text-center py-4">No hay productos en el carrito.</p>
                 @endforelse
             </div>
-            
+
             <div class="bg-green-100 text-green-700 font-bold text-2xl py-4 rounded-md mt-6">
                 Importe a pagar: ${{ number_format($totalCarrito, 2) }} MXN
             </div>
-            
-            <button onclick="mostrarNotificacion()" class="bg-green-600 text-white font-bold py-3 px-8 rounded-md mt-6 text-lg hover:bg-green-700">
-                FINALIZAR
-            </button>
+
+            <form action="{{ route('pago.procesar') }}" method="POST">
+                @csrf
+                <button type="submit" class="bg-green-600 text-white font-bold py-3 px-8 rounded-md mt-6 text-lg hover:bg-green-700">
+                    FINALIZAR
+                </button>
+            </form>
         </div>
     </div>
+
 </body>
+
 </html>

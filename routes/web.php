@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\ProductoController;
-use App\Http\Controllers\CheckoutController;
 
 Route::get('/', [ProductoController::class, 'index'])->name('welcome');
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
@@ -19,9 +18,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/carrito/{id}', [CarritoController::class, 'destroy'])->name('carrito.destroy');
     Route::post('/carrito/vaciar', [CarritoController::class, 'clear'])->name('carrito.clear');
 
-    // Rutas de checkout
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
-    Route::post('/procesar-pago', [CheckoutController::class, 'procesarPago'])->name('pago.procesar');
+    // Rutas del checkout
+    Route::get('/checkout', [CarritoController::class, 'checkout'])->name('checkout');
+    Route::post('/procesar-pago', [CarritoController::class, 'procesarCompra'])->name('pago.procesar');
 });
 
 Auth::routes();
