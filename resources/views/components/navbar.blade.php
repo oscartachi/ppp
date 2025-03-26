@@ -16,6 +16,8 @@
                 <a href="{{ route('carrito.index') }}" class="text-gray-700 hover:text-green-700 font-semibold">
                     🛒 Carrito
                 </a>
+                <a href="{{ route('historial') }}" class="text-gray-700 hover:text-green-600">📜 Historial de Compras</a>
+                
                 <a href="{{ route('productos.create') }}" class="text-gray-700 hover:text-green-700 font-semibold">
                     ➕ Agregar Producto
                 </a>

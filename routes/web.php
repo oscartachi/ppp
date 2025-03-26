@@ -1,5 +1,7 @@
 <?php
 
+
+use App\Http\Controllers\CompraController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CarritoController;
@@ -21,6 +23,8 @@ Route::middleware('auth')->group(function () {
     // Rutas del checkout
     Route::get('/checkout', [CarritoController::class, 'checkout'])->name('checkout');
     Route::post('/procesar-pago', [CarritoController::class, 'procesarCompra'])->name('pago.procesar');
+
+    Route::get('/historial', [CompraController::class, 'index'])->name('historial');
 });
 
 Auth::routes();
