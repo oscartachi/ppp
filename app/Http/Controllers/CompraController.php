@@ -10,11 +10,14 @@ class CompraController extends Controller
 {
     public function index()
     {
-        // Obtener las compras del usuario autenticado, ordenadas por fecha
         $compras = Compra::where('user_id', Auth::id())
                          ->orderBy('created_at', 'desc')
                          ->get();
-
+    
+        $compras->each(function ($compra) {
+            $compra->productos = json_decode($compra->productos, true);
+        });
+    
         return view('historial', compact('compras'));
     }
 }
